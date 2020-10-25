@@ -17,26 +17,34 @@ window.addEventListener("load", function () {
         }
     });
 
+    function searching() {
+        let a = arr.filter((item) => {
+            return item.textContent.includes(input.value);
+        });
+        return a;
+    }
+
+    function replacing(arr) {
+        arr.forEach((item) => {
+            let newItem = document.createElement('li'),
+                del = input.value,
+                delSymbols = item.innerHTML.replace(del, `<span style="background-color:yellow">${del}</span>`);
+
+
+            newItem.innerHTML = `<li><a href="${item.href}" >${delSymbols}</a></li>`;
+
+            searchResult.appendChild(newItem);
+        })
+    }
+
 
 
 
     input.addEventListener("input", () => {
-        let a = arr.filter((item) => {
-            return item.textContent.includes(input.value);
-        });
-
+        let a = searching();
         searchResult.innerHTML = '';
 
-        a.forEach((item) => {
-            let newItem = document.createElement('li'),
-                del = input.value,
-                delSymbols = item.textContent.replace(del, '');
-
-
-            newItem.innerHTML = `<li><a href="${item.href}" ><span style="background-color:yellow">${del}</span>${delSymbols}</a></li>`;
-
-            searchResult.appendChild(newItem);
-        })
+        replacing(a);
         result.textContent = `Найдено: ${a.length}`;
     })
 
